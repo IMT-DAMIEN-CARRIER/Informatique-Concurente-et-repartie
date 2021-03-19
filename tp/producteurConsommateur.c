@@ -93,6 +93,7 @@ int V(int _idSemaphore) {
     sem.sem_num = 0;
     sem.sem_op = 1;
     sem.sem_flg = 0;
+
     return semop(_idSemaphore, &sem, 1);
 }
 
@@ -257,11 +258,14 @@ void afficherLigne(MemoirePartagee m, int plein, int vide, int mutex, int ordre,
             break;
     }
 
-    printf("|  %3d  |  %3d  |  %3d  |  %3d   | %s |\n", getCompteur(plein),
-           getCompteur(vide),
-           getCompteur(mutex),
-           getNombreDeCaracteresDansLeBufferCommun(m),
-           getAffichageDuBufferCommun(m));
+    printf(
+            "|  %3d  |  %3d  |  %3d  |  %3d   | %s |\n",
+            getCompteur(plein),
+            getCompteur(vide),
+            getCompteur(mutex),
+            getNombreDeCaracteresDansLeBufferCommun(m),
+            getAffichageDuBufferCommun(m)
+           );
 }
 
 /************************************************************************************************/
@@ -303,7 +307,6 @@ void consommateur(MemoirePartagee m, int plein, int vide, int mutex, char *chain
         afficherLigne(m, plein, vide, mutex, CONSOMMER, c);
         numeroLettre++;
     } while (c != 0);
-
 }
 
 void producteur(MemoirePartagee m, int plein, int vide, int mutex, char *chaineAEnvoyer) {
@@ -344,6 +347,7 @@ int main(int argc, char **argv) {
         case -1 :
             printf("Erreur dans la creation du processus fils.\n");
             perror("Erreur");
+
             break;
         case 0 :
             printf("\nEnvoi de \"%s\" \n", argv[2]);
@@ -362,5 +366,6 @@ int main(int argc, char **argv) {
             detruireSemaphore(mutex);
         }
     }
+
     return EXIT_SUCCESS;
 }
