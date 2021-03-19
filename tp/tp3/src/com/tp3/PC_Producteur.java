@@ -13,8 +13,7 @@ public class PC_Producteur extends Thread
 
     public void run ()
     {
-        for (int i = 0; i < chaineAEnvoyer.length(); i++)
-        {
+        for (int i = 0; i < chaineAEnvoyer.length(); i++) {
             tampon.placer (chaineAEnvoyer.charAt (i) );
         }
 

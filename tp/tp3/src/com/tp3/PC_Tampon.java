@@ -8,8 +8,8 @@ public class PC_Tampon
 
     public PC_Tampon (int size)
     {
-        this.taille  = size;
-        this.index   = 0;
+        this.taille = size;
+        this.index = 0;
         this.tableau = new char [taille];
     }
 
