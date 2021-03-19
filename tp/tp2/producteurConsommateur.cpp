@@ -22,19 +22,13 @@ int shmid;
 /*    Déclaration des fonctions    */
 /* ******************************* */
 
-void producteur(char[]);
+void producteur();
 void consommateur();
 
 /* ******************************* */
 
 int main(int argc, char **argv)
 {
-    if (argc != 2) {
-        printf("Usage : /producteurConsommateur taille chaine\n");
-        printf("Exemple: ./producteurConsommateur 4 Bonjour\n");
-        exit(1);
-    }
-
     sem_init(&mutex, 1, 1); // Initialisation du mutex qui permet de poser des vérous
     sem_init(&vide,1 , 1); // Initialisation du nombre de slots à remplir
     sem_init(&plein, 1, 0); // Initialisation du nombre de slots remplis
@@ -53,7 +47,7 @@ int main(int argc, char **argv)
         perror("Erreur lors de la récupération de la mémoire partagée");
     }
 
-    thread producer(producteur, argv[1]);
+    thread producer(producteur);
     thread consumer(consommateur);
 
     // On attend le retour des 2 threads
@@ -72,8 +66,9 @@ int main(int argc, char **argv)
 /* Implémentation des fonctions */
 /* **************************** */
 
-void producteur(char phrase[])
+void producteur()
 {
+    char phrase[] = "Hello World i'm Damien";
     cout << "Lancement du producteur, PID : " << getpid() << endl;
 
     sleep(1);
@@ -99,7 +94,7 @@ void consommateur()
     cout << "Lancement du consomateur, PID : " << getpid() << endl;
 
     do {
-        sem_wait(&plein) // plein prend la valeur 0.
+        sem_wait(&plein); // plein prend la valeur 0.
         sem_wait(&mutex);
 
         cout << "Réception du caractère " << *p_char << " par le consomateur." << endl;
